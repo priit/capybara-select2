@@ -1,6 +1,5 @@
 require "capybara-select2/version"
 require 'capybara/selectors/tag_selector'
-require 'rspec/core'
 
 module Capybara
   module Select2
@@ -13,7 +12,7 @@ module Capybara
         select2_container = find(:css, options[:css])
       else
         select_name = options[:from]
-        select2_container = find("label", text: select_name).find(:xpath, '..').find(".select2-container")
+        select2_container = find("label.select2", text: select_name).find(:xpath, '..').find(".select2-container")
       end
 
       # Open select2 field
@@ -47,9 +46,4 @@ module Capybara
       end
     end
   end
-end
-
-RSpec.configure do |config|
-  config.include Capybara::Select2
-  config.include Capybara::Selectors::TagSelector
 end
