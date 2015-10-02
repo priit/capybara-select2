@@ -44,6 +44,11 @@ module Capybara
           find(:xpath, "//body").find("#{drop_container} li.select2-result-selectable", text: value).click
         end
       end
+
+      # Close select2 field (needed if select2 not configured to close on selection)
+      if options.has_key? :close
+        find('#select2-drop-mask').click
+      end
     end
   end
 end
