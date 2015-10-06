@@ -4,6 +4,9 @@ require 'capybara/selectors/tag_selector'
 module Capybara
   module Select2
     def select2(value, options = {})
+      wait = options[:wait].present? ? options[:wait].to_f : 0.01
+      original_wait_time = Capybara.default_max_wait_time
+      Capybara.default_max_wait_time = wait
       raise "Must pass a hash containing 'from' or 'xpath' or 'css'" unless options.is_a?(Hash) and [:from, :xpath, :css].any? { |k| options.has_key? k }
 
       if options.has_key? :xpath
@@ -49,6 +52,7 @@ module Capybara
       if options.has_key? :close
         find('#select2-drop-mask').click
       end
+      Capybara.default_max_wait_time = original_wait_time
     end
   end
 end
