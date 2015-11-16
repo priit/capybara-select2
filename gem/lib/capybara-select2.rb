@@ -47,7 +47,9 @@ module Capybara
 
       # Close select2 field (needed if select2 not configured to close on selection)
       if options.has_key? :close
+        Capybara.ignore_hidden_elements = false
         find('#select2-drop-mask').click
+        Capybara.ignore_hidden_elements = true
       end
     end
   end
