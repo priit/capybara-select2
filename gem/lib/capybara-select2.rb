@@ -28,7 +28,7 @@ module Capybara
         select2_container.find(".select2-choices").click
       end
 
-      if options.has_key? :search
+      if options.key? :search
         find(:xpath, "//body").find(".select2-search input.select2-search__field").set(value)
         page.execute_script(%|$("input.select2-search__field:visible").keyup();|)
         drop_container = ".select2-results"
@@ -50,7 +50,17 @@ module Capybara
 
       # Close select2 field (needed if select2 not configured to close on selection)
       if options.has_key? :close
-        find('#select2-drop-mask').click
+        begin
+          select2_container.click # select2 version 4.0
+        rescue
+          begin
+            if options.key? :from
+              find("label.select2", text: select_name).click # container can be obscured
+            end
+          rescue
+            find('#select2-drop-mask').click # select2 version 3.x
+          end
+        end
       end
       Capybara.default_max_wait_time = original_wait_time
     end
