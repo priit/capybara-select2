@@ -4,9 +4,8 @@ require 'capybara/selectors/tag_selector'
 module Capybara
   module Select2
     def select2(value, options = {})
-      wait = options[:wait].present? ? options[:wait].to_f : 0.01
       original_wait_time = Capybara.default_max_wait_time
-      Capybara.default_max_wait_time = wait
+      Capybara.default_max_wait_time = 0.5
       raise "Must pass a hash containing 'from' or 'xpath' or 'css'" unless options.is_a?(Hash) and [:from, :xpath, :css].any? { |k| options.has_key? k }
 
       if options.has_key? :xpath
